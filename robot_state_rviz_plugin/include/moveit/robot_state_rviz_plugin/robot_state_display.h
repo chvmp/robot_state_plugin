@@ -42,7 +42,7 @@
 #ifndef Q_MOC_RUN
 #include <moveit/rdf_loader/rdf_loader.h>
 #include <moveit/rviz_plugin_render_tools/robot_state_visualization.h>
-#include <moveit_msgs/DisplayRobotState.h>
+// #include <moveit_msgs/DisplayRobotState.h>
 #include <ros/ros.h>
 #endif
 
@@ -96,7 +96,7 @@ private Q_SLOTS:
   void changedHighlightColor();
   void changedUnhighlightColor();
 
-  void changedRobotStateTopic();
+//   void changedRobotStateTopic();
   void changedEnableLinkHighlight();
   void changedEnableVisualVisible();
   void changedEnableCollisionVisible();
@@ -113,9 +113,9 @@ protected:
   void setLinkColor(rviz::Robot* robot, const std::string& link_name, const QColor& color);
   void unsetLinkColor(rviz::Robot* robot, const std::string& link_name);
 
-  void newRobotStateCallback(const moveit_msgs::DisplayRobotState::ConstPtr& state);
+//   void newRobotStateCallback(const moveit_msgs::DisplayRobotState::ConstPtr& state);
 
-  void setRobotHighlights(const moveit_msgs::DisplayRobotState::_highlight_links_type& highlight_links);
+//   void setRobotHighlights(const moveit_msgs::DisplayRobotState::_highlight_links_type& highlight_links);
   void setHighlight(const std::string& link_name, const std_msgs::ColorRGBA& color);
   void unsetHighlight(const std::string& link_name);
 
@@ -142,7 +142,7 @@ protected:
   rviz::StringProperty* highlight_link_;
   rviz::StringProperty* unhighlight_link_;
 
-  rviz::RosTopicProperty* robot_state_topic_property_;
+//   rviz::RosTopicProperty* robot_state_topic_property_;
   rviz::FloatProperty* robot_alpha_property_;
   rviz::ColorProperty* attached_body_color_property_;
 

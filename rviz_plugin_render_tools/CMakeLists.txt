@@ -1,9 +1,9 @@
 set(MOVEIT_LIB_NAME moveit_rviz_plugin_render_tools)
 
 set(HEADERS
-  include/moveit/rviz_plugin_render_tools/octomap_render.h
+  #include/moveit/rviz_plugin_render_tools/octomap_render.h
   include/moveit/rviz_plugin_render_tools/planning_link_updater.h
-  include/moveit/rviz_plugin_render_tools/planning_scene_render.h
+  #include/moveit/rviz_plugin_render_tools/planning_scene_render.h
   include/moveit/rviz_plugin_render_tools/render_shapes.h
   include/moveit/rviz_plugin_render_tools/robot_state_visualization.h
 )
@@ -13,9 +13,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library(${MOVEIT_LIB_NAME}
   src/render_shapes.cpp
   src/robot_state_visualization.cpp
-  src/planning_scene_render.cpp
+  #src/planning_scene_render.cpp
   src/planning_link_updater.cpp
-  src/octomap_render.cpp
+  #src/octomap_render.cpp
   ${HEADERS}
 )
 set_target_properties(${MOVEIT_LIB_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
