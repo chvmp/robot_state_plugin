@@ -65,10 +65,10 @@ RobotStateDisplay::RobotStateDisplay() : Display(), update_state_(false), load_r
       "Robot Description", "robot_description", "The name of the ROS parameter where the URDF for the robot is loaded",
       this, SLOT(changedRobotDescription()), this);
 
-  robot_state_topic_property_ = new rviz::RosTopicProperty(
-      "Robot State Topic", "display_robot_state", ros::message_traits::datatype<moveit_msgs::DisplayRobotState>(),
-      "The topic on which the moveit_msgs::RobotState messages are received", this, SLOT(changedRobotStateTopic()),
-      this);
+//   robot_state_topic_property_ = new rviz::RosTopicProperty(
+//       "Robot State Topic", "display_robot_state", ros::message_traits::datatype<moveit_msgs::DisplayRobotState>(),
+//       "The topic on which the moveit_msgs::RobotState messages are received", this, SLOT(changedRobotStateTopic()),
+//       this);
 
   // Planning scene category -------------------------------------------------------------------------------------------
   root_link_name_property_ =
@@ -204,60 +204,60 @@ static bool operator!=(const std_msgs::ColorRGBA& a, const std_msgs::ColorRGBA& 
   return a.r != b.r || a.g != b.g || a.b != b.b || a.a != b.a;
 }
 
-void RobotStateDisplay::setRobotHighlights(const moveit_msgs::DisplayRobotState::_highlight_links_type& highlight_links)
-{
-  if (highlight_links.empty() && highlights_.empty())
-    return;
+// void RobotStateDisplay::setRobotHighlights(const moveit_msgs::DisplayRobotState::_highlight_links_type& highlight_links)
+// {
+//   if (highlight_links.empty() && highlights_.empty())
+//     return;
 
-  std::map<std::string, std_msgs::ColorRGBA> highlights;
-  for (moveit_msgs::DisplayRobotState::_highlight_links_type::const_iterator it = highlight_links.begin();
-       it != highlight_links.end(); ++it)
-  {
-    highlights[it->id] = it->color;
-  }
+//   std::map<std::string, std_msgs::ColorRGBA> highlights;
+//   for (moveit_msgs::DisplayRobotState::_highlight_links_type::const_iterator it = highlight_links.begin();
+//        it != highlight_links.end(); ++it)
+//   {
+//     highlights[it->id] = it->color;
+//   }
 
-  if (enable_link_highlight_->getBool())
-  {
-    std::map<std::string, std_msgs::ColorRGBA>::iterator ho = highlights_.begin();
-    std::map<std::string, std_msgs::ColorRGBA>::iterator hn = highlights.begin();
-    while (ho != highlights_.end() || hn != highlights.end())
-    {
-      if (ho == highlights_.end())
-      {
-        setHighlight(hn->first, hn->second);
-        ++hn;
-      }
-      else if (hn == highlights.end())
-      {
-        unsetHighlight(ho->first);
-        ++ho;
-      }
-      else if (hn->first < ho->first)
-      {
-        setHighlight(hn->first, hn->second);
-        ++hn;
-      }
-      else if (hn->first > ho->first)
-      {
-        unsetHighlight(ho->first);
-        ++ho;
-      }
-      else if (hn->second != ho->second)
-      {
-        setHighlight(hn->first, hn->second);
-        ++ho;
-        ++hn;
-      }
-      else
-      {
-        ++ho;
-        ++hn;
-      }
-    }
-  }
+//   if (enable_link_highlight_->getBool())
+//   {
+//     std::map<std::string, std_msgs::ColorRGBA>::iterator ho = highlights_.begin();
+//     std::map<std::string, std_msgs::ColorRGBA>::iterator hn = highlights.begin();
+//     while (ho != highlights_.end() || hn != highlights.end())
+//     {
+//       if (ho == highlights_.end())
+//       {
+//         setHighlight(hn->first, hn->second);
+//         ++hn;
+//       }
+//       else if (hn == highlights.end())
+//       {
+//         unsetHighlight(ho->first);
+//         ++ho;
+//       }
+//       else if (hn->first < ho->first)
+//       {
+//         setHighlight(hn->first, hn->second);
+//         ++hn;
+//       }
+//       else if (hn->first > ho->first)
+//       {
+//         unsetHighlight(ho->first);
+//         ++ho;
+//       }
+//       else if (hn->second != ho->second)
+//       {
+//         setHighlight(hn->first, hn->second);
+//         ++ho;
+//         ++hn;
+//       }
+//       else
+//       {
+//         ++ho;
+//         ++hn;
+//       }
+//     }
+//   }
 
-  swap(highlights, highlights_);
-}
+//   swap(highlights, highlights_);
+// }
 
 void RobotStateDisplay::changedHighlightColor()
 {
@@ -323,30 +323,30 @@ void RobotStateDisplay::changedRobotSceneAlpha()
   }
 }
 
-void RobotStateDisplay::changedRobotStateTopic()
-{
-  robot_state_subscriber_.shutdown();
+// void RobotStateDisplay::changedRobotStateTopic()
+// {
+//   robot_state_subscriber_.shutdown();
 
-  // reset model to default state, we don't want to show previous messages
-  if (static_cast<bool>(kstate_))
-    kstate_->setToDefaultValues();
-  update_state_ = true;
+//   // reset model to default state, we don't want to show previous messages
+//   if (static_cast<bool>(kstate_))
+//     kstate_->setToDefaultValues();
+//   update_state_ = true;
 
-  robot_state_subscriber_ = root_nh_.subscribe(robot_state_topic_property_->getStdString(), 10,
-                                               &RobotStateDisplay::newRobotStateCallback, this);
-}
+//   robot_state_subscriber_ = root_nh_.subscribe(robot_state_topic_property_->getStdString(), 10,
+//                                                &RobotStateDisplay::newRobotStateCallback, this);
+// }
 
-void RobotStateDisplay::newRobotStateCallback(const moveit_msgs::DisplayRobotStateConstPtr& state_msg)
-{
-  if (!kmodel_)
-    return;
-  if (!kstate_)
-    kstate_.reset(new robot_state::RobotState(kmodel_));
-  // possibly use TF to construct a robot_state::Transforms object to pass in to the conversion functio?
-  robot_state::robotStateMsgToRobotState(state_msg->state, *kstate_);
-  setRobotHighlights(state_msg->highlight_links);
-  update_state_ = true;
-}
+// void RobotStateDisplay::newRobotStateCallback(const moveit_msgs::DisplayRobotStateConstPtr& state_msg)
+// {
+//   if (!kmodel_)
+//     return;
+//   if (!kstate_)
+//     kstate_.reset(new robot_state::RobotState(kmodel_));
+//   // possibly use TF to construct a robot_state::Transforms object to pass in to the conversion functio?
+//   robot_state::robotStateMsgToRobotState(state_msg->state, *kstate_);
+//   setRobotHighlights(state_msg->highlight_links);
+//   update_state_ = true;
+// }
 
 void RobotStateDisplay::setLinkColor(const std::string& link_name, const QColor& color)
 {
@@ -434,7 +434,7 @@ void RobotStateDisplay::update(float wall_dt, float ros_dt)
   if (load_robot_model_)
   {
     loadRobotModel();
-    changedRobotStateTopic();
+    // changedRobotStateTopic();
   }
 
   calculateOffsetPosition();
